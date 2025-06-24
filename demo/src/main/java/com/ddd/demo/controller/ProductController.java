@@ -3,10 +3,12 @@ package com.ddd.demo.controller;
 import com.ddd.demo.entity.ProductEntity;
 import com.ddd.demo.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.querydsl.QPageRequest;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -45,5 +47,51 @@ public class ProductController {
     @GetMapping("/searchById")
     public ProductEntity getProductById(Long id) {
         return productService.getProductById(id);
+    }
+
+    /**
+     * search product by name
+     * @param page
+     * @param size
+     * @param sort
+     * @param direction
+     * @return Page<ProductEntity>
+     */
+    @GetMapping("/allProductsByPageable")
+    public Page<ProductEntity> getAllProductsByPageable(
+            @RequestParam int page,
+            @RequestParam int size,
+            @RequestParam(defaultValue = "id") String sort,
+            @RequestParam(defaultValue = "desc") String direction) {
+
+        Sort.Direction sortDirection = direction.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Sort sortBy = Sort.by(sortDirection, sort);
+        Pageable pageable = PageRequest.of(page, size, sortBy);
+
+        return productService.findAllProducts(pageable);
+    }
+
+    /**
+     * search product by name with pagination
+     * @param productName
+     * @param page
+     * @param size
+     * @param sort
+     * @param direction
+     * @return Page<ProductEntity>
+     */
+    @GetMapping("/searchPage")
+    public Page<ProductEntity> getProductByPageable(
+            @RequestParam String productName,
+            @RequestParam int page,
+            @RequestParam int size,
+            @RequestParam(defaultValue = "id") String sort,
+            @RequestParam(defaultValue = "desc") String direction) {
+
+        Sort.Direction sortDirection = direction.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Sort sortBy = Sort.by(sortDirection, sort);
+        Pageable pageable = PageRequest.of(page, size, sortBy);
+
+        return productService.findByProductNameContaining(productName, pageable);
     }
 }

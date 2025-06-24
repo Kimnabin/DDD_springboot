@@ -4,6 +4,8 @@ import com.ddd.demo.entity.ProductEntity;
 import com.ddd.demo.repository.ProductRepositoty;
 import com.ddd.demo.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,5 +30,15 @@ public class ProductServiceImpl implements ProductService {
     public ProductEntity getProductById(Long id) {
         return productRepositoty.findById(id)
                 .orElse(null); // Return null if product not found
+    }
+
+    @Override
+    public Page<ProductEntity> findAllProducts(Pageable pageable) {
+        return productRepositoty.findAll(pageable);
+    }
+
+    @Override
+    public Page<ProductEntity> findByProductNameContaining(String productName, Pageable pageable) {
+        return productRepositoty.findByProductNameContaining(productName, pageable);
     }
 }
