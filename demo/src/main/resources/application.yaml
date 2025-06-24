@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: ddd-spring-boot-demo
+  datasource:
+      url: jdbc:mysql://localhost:3306/dddspringdb
+      username: root
+      password: root
+      driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    database: mysql
+    show-sql: true
+    hibernate:
+      ddl-auto: update # convenient in Dev environment
+    properties:
+      hibernate:
+        format_sql: true
+        user_sql_comments: true
