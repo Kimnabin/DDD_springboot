@@ -1,9 +1,8 @@
 package com.ddd.demo.service;
 
-import com.ddd.demo.entity.ProductEntity;
+import com.ddd.demo.entity.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -15,14 +14,14 @@ public interface ProductService {
      * @param product the product entity to create
      * @return the created product entity
      */
-    ProductEntity   createProduct(ProductEntity product);
+    Product createProduct(Product product);
 
     /**
      * Retrieves all products.
      *
      * @return a list of all product entities
      */
-    List<ProductEntity> getAllProducts();
+    List<Product> getAllProducts();
 
     /**
      * Retrieves a product by its ID.
@@ -30,7 +29,7 @@ public interface ProductService {
      * @param id the ID of the product to retrieve
      * @return the product entity with the specified ID, or null if not found
      */
-    ProductEntity getProductById(Long id);
+    Product getProductById(Long id);
 
     /**
      * Retrieves all products with pagination.
@@ -39,7 +38,7 @@ public interface ProductService {
      * @return a page of product entities
      */
     // get all products by limit and offset
-    Page<ProductEntity> findAllProducts(Pageable pageable);
+    Page<Product> findAllProducts(Pageable pageable);
 
     /**
      * Searches for products by name containing a substring with pagination.
@@ -48,6 +47,6 @@ public interface ProductService {
      * @param pageable    the pagination information
      * @return a page of product entities matching the search criteria
      */
-    Page<ProductEntity> findByProductNameContaining(String productName, Pageable pageable);
+    Page<Product> findByProductNameContaining(String productName, Pageable pageable);
 
 }

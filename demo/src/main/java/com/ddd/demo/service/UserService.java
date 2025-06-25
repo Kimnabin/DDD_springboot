@@ -1,7 +1,6 @@
 package com.ddd.demo.service;
 
-import com.ddd.demo.entity.user.UserEntity;
-import org.springframework.stereotype.Service;
+import com.ddd.demo.entity.user.User;
 
 import java.util.List;
 
@@ -14,7 +13,7 @@ public interface UserService {
      * @param user the user entity to create
      * @return the created user entity
      */
-    UserEntity createUser(UserEntity user);
+    User createUser(User user);
 
     /**
      * Retrieves a user by their ID.
@@ -22,7 +21,7 @@ public interface UserService {
      * @param id the ID of the user to retrieve
      * @return the user entity with the specified ID, or null if not found
      */
-    UserEntity getUserById(Long id);
+    User getUserById(Long id);
 
     /**
      * Retrieves a user by their username.
@@ -30,14 +29,14 @@ public interface UserService {
      * @param userName the username of the user to retrieve
      * @return the user entity with the specified username, or null if not found
      */
-    UserEntity getUserByName(String userName);
+    User getUserByName(String userName);
 
     /**
      * Retrieves all users.
      *
      * @return a list of all user entities
      */
-    List<UserEntity> getAllUsers();
+    List<User> getAllUsers();
 
 
     /**
@@ -46,7 +45,7 @@ public interface UserService {
      * @param password
      * @return
      */
-    UserEntity findByUserNameAndPassword(String userName, String password);
+    User findByUserNameAndPassword(String userName, String password);
 
     /**
      * Finds users with IDs less than the specified value.
@@ -54,5 +53,5 @@ public interface UserService {
      * @param id the ID threshold
      * @return a list of user entities with IDs less than the specified value
      */
-    List<UserEntity> findByIdLessThan(Long id);
+    List<User> findByIdLessThan(Long id);
 }

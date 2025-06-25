@@ -1,13 +1,12 @@
-package com.ddd.demo.controller;
+package com.ddd.demo.controller.product;
 
-import com.ddd.demo.entity.ProductEntity;
+import com.ddd.demo.entity.Product;
 import com.ddd.demo.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.querydsl.QPageRequest;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,7 +25,7 @@ public class ProductController {
      * @return
      */
     @PostMapping("/add")
-    public ProductEntity createProduct(ProductEntity product) {
+    public Product createProduct(Product product) {
         return productService.createProduct(product);
     }
 
@@ -35,7 +34,7 @@ public class ProductController {
      * @return List<ProductEntity>
      */
     @GetMapping("/searchAllProducts")
-    public List<ProductEntity> getAllProducts() {
+    public List<Product> getAllProducts() {
         return productService.getAllProducts();
     }
 
@@ -45,7 +44,7 @@ public class ProductController {
      * @return ProductEntity
      */
     @GetMapping("/searchById")
-    public ProductEntity getProductById(Long id) {
+    public Product getProductById(Long id) {
         return productService.getProductById(id);
     }
 
@@ -58,7 +57,7 @@ public class ProductController {
      * @return Page<ProductEntity>
      */
     @GetMapping("/allProductsByPageable")
-    public Page<ProductEntity> getAllProductsByPageable(
+    public Page<Product> getAllProductsByPageable(
             @RequestParam int page,
             @RequestParam int size,
             @RequestParam(defaultValue = "id") String sort,
@@ -81,7 +80,7 @@ public class ProductController {
      * @return Page<ProductEntity>
      */
     @GetMapping("/searchPage")
-    public Page<ProductEntity> getProductByPageable(
+    public Page<Product> getProductByPageable(
             @RequestParam String productName,
             @RequestParam int page,
             @RequestParam int size,

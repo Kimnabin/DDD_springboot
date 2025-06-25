@@ -6,13 +6,14 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Data
 @Entity
 @Table(name="java_product_001")
 @DynamicInsert
 @DynamicUpdate
-public class ProductEntity {
+public class Product {
 
     @Id
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
@@ -22,4 +23,11 @@ public class ProductEntity {
     @Column(name = "product_price", nullable = false, columnDefinition = "decimal(10,2) comment 'product price'")
     private BigDecimal productPrice;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "java_product_order_001",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "order_id")
+    )
+    private List<Order> orderList;
 }

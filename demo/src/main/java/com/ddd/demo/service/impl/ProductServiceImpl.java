@@ -1,6 +1,6 @@
 package com.ddd.demo.service.impl;
 
-import com.ddd.demo.entity.ProductEntity;
+import com.ddd.demo.entity.Product;
 import com.ddd.demo.repository.ProductRepositoty;
 import com.ddd.demo.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,28 +17,28 @@ public class ProductServiceImpl implements ProductService {
     private ProductRepositoty productRepositoty;
 
     @Override
-    public ProductEntity createProduct(ProductEntity product) {
+    public Product createProduct(Product product) {
         return productRepositoty.save(product);
     }
 
     @Override
-    public List<ProductEntity> getAllProducts() {
+    public List<Product> getAllProducts() {
         return productRepositoty.findAll();
     }
 
     @Override
-    public ProductEntity getProductById(Long id) {
+    public Product getProductById(Long id) {
         return productRepositoty.findById(id)
                 .orElse(null); // Return null if product not found
     }
 
     @Override
-    public Page<ProductEntity> findAllProducts(Pageable pageable) {
+    public Page<Product> findAllProducts(Pageable pageable) {
         return productRepositoty.findAll(pageable);
     }
 
     @Override
-    public Page<ProductEntity> findByProductNameContaining(String productName, Pageable pageable) {
+    public Page<Product> findByProductNameContaining(String productName, Pageable pageable) {
         return productRepositoty.findByProductNameContaining(productName, pageable);
     }
 }

@@ -1,6 +1,6 @@
 package com.ddd.demo.service.impl;
 
-import com.ddd.demo.entity.user.UserEntity;
+import com.ddd.demo.entity.user.User;
 import com.ddd.demo.repository.UserRepositoty;
 import com.ddd.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,33 +15,33 @@ public class UserServiceImpl implements UserService {
     private UserRepositoty userRepositoty;
 
     @Override
-    public UserEntity createUser(UserEntity user) {
+    public User createUser(User user) {
         return userRepositoty.save(user);
     }
 
     @Override
-    public UserEntity getUserById(Long id) {
+    public User getUserById(Long id) {
         return userRepositoty.findById(id)
                 .orElse(null); // Return null if user not found
     }
 
     @Override
-    public UserEntity getUserByName(String userName) {
+    public User getUserByName(String userName) {
         return userRepositoty.findByUserName(userName);
     }
 
     @Override
-    public List<UserEntity> getAllUsers() {
+    public List<User> getAllUsers() {
         return userRepositoty.findAll();
     }
 
     @Override
-    public UserEntity findByUserNameAndPassword(String userName, String password) {
+    public User findByUserNameAndPassword(String userName, String password) {
         return userRepositoty.findByUserNameAndPassword(userName, password);
     }
 
     @Override
-    public List<UserEntity> findByIdLessThan(Long id) {
+    public List<User> findByIdLessThan(Long id) {
         return userRepositoty.findByIdLessThan(id);
     }
 }
