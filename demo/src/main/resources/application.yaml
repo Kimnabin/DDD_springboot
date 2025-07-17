@@ -2,7 +2,7 @@ spring:
   application:
     name: ddd-spring-boot-demo
   datasource:
-      url: jdbc:mysql://localhost:3306/dddspringdb
+      url: jdbc:mysql://localhost:33016/demospringdb
       username: root
       password: root
       driver-class-name: com.mysql.cj.jdbc.Driver

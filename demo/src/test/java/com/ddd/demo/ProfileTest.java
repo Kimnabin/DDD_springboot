@@ -2,16 +2,14 @@ package com.ddd.demo;
 
 import com.ddd.demo.entity.member.Member;
 import com.ddd.demo.entity.member.Profile;
-import com.ddd.demo.repository.MemberRepositoty;
+import com.ddd.demo.repository.MemberRepository;
 import com.ddd.demo.repository.ProfileRepositoty;
-import jakarta.transaction.Transactional;
 import lombok.extern.java.Log;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Commit;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -21,7 +19,7 @@ import java.util.stream.IntStream;
 public class ProfileTest {
 
     @Autowired
-    private MemberRepositoty memberRepositoty;
+    private MemberRepository memberRepository;
 
     @Autowired
     private ProfileRepositoty profileRepositoty;
@@ -43,7 +41,7 @@ public class ProfileTest {
             member.setPwd("password" + i);
 
             // Save the member
-            memberRepositoty.save(member);
+            memberRepository.save(member);
         });
     }
 
@@ -75,7 +73,7 @@ public class ProfileTest {
      */
     @Test
     public void testFetchJoin1() {
-        List<Object[]> result = memberRepositoty.getMemberWithProfileCount("user 1");
+        List<Object[]> result = memberRepository.getMemberWithProfileCount("user 1");
 
         for (Object[] row : result) {
             String memberId = (String) row[0];
