@@ -1,57 +1,49 @@
 package com.ddd.demo.service;
 
+import com.ddd.demo.dto.user.UserCreateRequest;
+import com.ddd.demo.dto.user.UserResponse;
+import com.ddd.demo.dto.user.UserUpdateRequest;
 import com.ddd.demo.entity.user.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
-
 public interface UserService {
 
-    /**
-     * Creates a new user.
-     *
-     * @param user the user entity to create
-     * @return the created user entity
-     */
-    User createUser(User user);
+    // Create new user
+    UserResponse createUser(UserCreateRequest request);
 
-    /**
-     * Retrieves a user by their ID.
-     *
-     * @param id the ID of the user to retrieve
-     * @return the user entity with the specified ID, or null if not found
-     */
-    User getUserById(Long id);
+    // Get user by ID
+    UserResponse getUserById(Long id);
 
-    /**
-     * Retrieves a user by their username.
-     *
-     * @param userName the username of the user to retrieve
-     * @return the user entity with the specified username, or null if not found
-     */
-    User getUserByName(String userName);
+    // Get user by username
+    UserResponse getUserByUsername(String username);
 
-    /**
-     * Retrieves all users.
-     *
-     * @return a list of all user entities
-     */
-    List<User> getAllUsers();
+    // Update user
+    UserResponse updateUser(Long id, UserUpdateRequest request);
 
+    // Search users with pagination
+    Page<UserResponse> searchUsers(String keyword, Pageable pageable);
 
-    /**
-     * Finds a user by username and password.
-     * @param userName
-     * @param password
-     * @return
-     */
-    User findByUserNameAndPassword(String userName, String password);
+    // Get all active users
+    Page<UserResponse> getActiveUsers(Pageable pageable);
 
-    /**
-     * Finds users with IDs less than the specified value.
-     *
-     * @param id the ID threshold
-     * @return a list of user entities with IDs less than the specified value
-     */
-    List<User> findByIdLessThan(Long id);
+    // Delete user (soft delete)
+    void deleteUser(Long id);
+
+    // Get users by role
+    List<UserResponse> getUsersByRole(User.UserRole role);
+
+    // Check if username exists
+    boolean existsByUsername(String username);
+
+    // Check if email exists
+    boolean existsByEmail(String email);
+
+    // Change user password
+    void changePassword(Long userId, String oldPassword, String newPassword);
+
+    // Activate/Deactivate user
+    void updateUserStatus(Long userId, boolean isActive);
 }

@@ -1,52 +1,56 @@
 package com.ddd.demo.service;
 
-import com.ddd.demo.entity.Product;
+import com.ddd.demo.dto.product.ProductRequest;
+import com.ddd.demo.dto.product.ProductResponse;
+import com.ddd.demo.dto.product.ProductStatsResponse;
+import com.ddd.demo.entity.product.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface ProductService {
 
-    /**
-     * Creates a new product.
-     *
-     * @param product the product entity to create
-     * @return the created product entity
-     */
-    Product createProduct(Product product);
+    // Create new product
+    ProductResponse createProduct(ProductRequest request);
 
-    /**
-     * Retrieves all products.
-     *
-     * @return a list of all product entities
-     */
-    List<Product> getAllProducts();
+    // Get product by ID
+    ProductResponse getProductById(Long id);
 
-    /**
-     * Retrieves a product by its ID.
-     *
-     * @param id the ID of the product to retrieve
-     * @return the product entity with the specified ID, or null if not found
-     */
-    Product getProductById(Long id);
+    // Get product by SKU
+    ProductResponse getProductBySku(String sku);
 
-    /**
-     * Retrieves all products with pagination.
-     *
-     * @param pageable the pagination information
-     * @return a page of product entities
-     */
-    // get all products by limit and offset
-    Page<Product> findAllProducts(Pageable pageable);
+    // Update product
+    ProductResponse updateProduct(Long id, ProductRequest request);
 
-    /**
-     * Searches for products by name containing a substring with pagination.
-     *
-     * @param productName the substring to search for in product names
-     * @param pageable    the pagination information
-     * @return a page of product entities matching the search criteria
-     */
-    Page<Product> findByProductNameContaining(String productName, Pageable pageable);
+    // Search products
+    Page<ProductResponse> searchProducts(String keyword, Pageable pageable);
 
+    // Get products by category
+    Page<ProductResponse> getProductsByCategory(String category, Pageable pageable);
+
+    // Get products by price range
+    Page<ProductResponse> getProductsByPriceRange(BigDecimal minPrice, BigDecimal maxPrice, Pageable pageable);
+
+    // Delete product (soft delete)
+    void deleteProduct(Long id);
+
+    // Update product status
+    void updateProductStatus(Long id, Product.ProductStatus status);
+
+    // Update stock quantity
+    void updateStock(Long productId, Integer quantity);
+
+    // Decrease stock (for orders)
+    void decreaseStock(Long productId, Integer quantity);
+
+    // Get low stock products
+    List<ProductResponse> getLowStockProducts(Integer threshold);
+
+    // Get product statistics by category
+    List<ProductStatsResponse> getProductStatsByCategory();
+
+    // Check if SKU exists
+    boolean existsBySku(String sku);
 }
