@@ -10,7 +10,8 @@ import java.sql.Timestamp;
 
 @Data
 @Entity
-@Table(name = "tbl_free_replies_001")
+@Table(name = "tbl_free_replies_001", indexes = {@Index(unique = false,
+columnList = "bno")})
 public class FreeBoardReply {
 
     @Id

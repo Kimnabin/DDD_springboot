@@ -23,9 +23,9 @@ public class SecurityConfig {
         // backend and frontend are separated, so we need to disable CSRF
         http.formLogin((formLogin) -> formLogin.loginProcessingUrl("/login"));
         http.authorizeHttpRequests(req -> req
-                .requestMatchers("/api/v1/auth/login", "/api/v1/auth/register")
-                .permitAll()
-                .anyRequest().authenticated());
+                .requestMatchers("/api/v1/auth/login", "/api/v1/auth/register", "/home/**") // Public endpoints
+                .permitAll()                    // Allow public access to login and register endpoints
+                .anyRequest().authenticated()); // All other requests require authentication
         return http.build();
     }
 

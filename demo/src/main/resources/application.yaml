@@ -1,6 +1,24 @@
 spring:
   application:
-    name: ddd-spring-boot-demo
+    name: ddd-spring-boot-dem
+
+    # Thymeleaf configuration
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: HTML
+    encoding: UTF-8
+    cache: false
+    servlet:
+      content-type: text/html
+
+  #Static resources
+  web:
+    resources:
+      static-locations: classpath:/static/
+      add-mappings: true
+
+  #Database configuration
   datasource:
       url: jdbc:mysql://localhost:33016/demospringdb
       username: root
