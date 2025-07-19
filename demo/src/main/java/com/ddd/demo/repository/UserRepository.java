@@ -16,32 +16,23 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    // Find by username - using Optional for null safety
     Optional<User> findByUsername(String username);
-
-    // Find by email
     Optional<User> findByEmail(String email);
 
-    // Check existence more efficiently
     boolean existsByUsername(String username);
     boolean existsByEmail(String email);
 
-    // Find active users with pagination
     Page<User> findByIsActiveTrue(Pageable pageable);
 
-    // Custom query with index hint for better performance
     @Query("SELECT u FROM User u WHERE u.username = :username AND u.isActive = true")
     Optional<User> findActiveUserByUsername(@Param("username") String username);
 
-    // Bulk update for better performance
     @Modifying
-    @Query("UPDATE User u SET u.isActive = false WHERE u.lastLoginDate < :date")
+    @Query("UPDATE User u SET u.isActive = false WHERE u.updatedAt < :date")
     int deactivateInactiveUsers(@Param("date") LocalDateTime date);
 
-    // Find users by role
     List<User> findByRole(User.UserRole role);
 
-    // Search users with keyword
     @Query("SELECT u FROM User u WHERE " +
             "LOWER(u.username) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
             "LOWER(u.email) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +

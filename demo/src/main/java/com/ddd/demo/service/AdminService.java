@@ -1,10 +1,14 @@
 package com.ddd.demo.service;
 
+import com.ddd.demo.dto.admin.AuditLogResponse;
 import com.ddd.demo.dto.admin.DashboardResponse;
 import com.ddd.demo.dto.admin.SystemConfigRequest;
 import com.ddd.demo.dto.admin.SystemInfoResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
+import java.util.Map;
 
 public interface AdminService {
 
@@ -27,6 +31,8 @@ public interface AdminService {
     void clearCache(String cacheName);
 
     // Get audit logs
+    Page<AuditLogResponse> getAuditLogs(String entity, String action, Pageable pageable);
+
     Page<AuditLogResponse> getAuditLogs(String entity, String action, Pageable pageable);
 
     // Send system notification

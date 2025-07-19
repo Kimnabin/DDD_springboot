@@ -200,7 +200,7 @@ public class ProductServiceImpl implements ProductService {
                 .map(obj -> ProductStatsResponse.builder()
                         .category((String) obj[0])
                         .totalProducts((Long) obj[1])
-                        .averagePrice((Double) obj[2])
+                        .averagePrice(BigDecimal.valueOf((Double) obj[2]))
                         .build())
                 .collect(Collectors.toList());
     }

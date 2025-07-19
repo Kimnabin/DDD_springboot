@@ -15,7 +15,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/admin")
@@ -26,7 +25,6 @@ public class AdminController {
 
     private final AdminService adminService;
 
-    // Get dashboard data
     @GetMapping("/dashboard")
     @Operation(summary = "Get dashboard", description = "Get admin dashboard data")
     public ResponseEntity<ApiResponse<DashboardResponse>> getDashboard(
@@ -36,7 +34,6 @@ public class AdminController {
         return ResponseEntity.ok(ApiResponse.success(dashboard));
     }
 
-    // Get system information
     @GetMapping("/system-info")
     @Operation(summary = "System info", description = "Get system information")
     public ResponseEntity<ApiResponse<SystemInfoResponse>> getSystemInfo() {
@@ -44,7 +41,6 @@ public class AdminController {
         return ResponseEntity.ok(ApiResponse.success(info));
     }
 
-    // Update system configuration
     @PostMapping("/config")
     @Operation(summary = "Update config", description = "Update system configuration")
     public ResponseEntity<ApiResponse<Void>> updateSystemConfig(
@@ -53,7 +49,6 @@ public class AdminController {
         return ResponseEntity.ok(ApiResponse.success(null, "Configuration updated"));
     }
 
-    // Export data
     @GetMapping("/export/{type}")
     @Operation(summary = "Export data", description = "Export data to Excel/CSV")
     public ResponseEntity<byte[]> exportData(
@@ -64,4 +59,8 @@ public class AdminController {
         String filename = String.format("%s-export-%s.xlsx", type, LocalDate.now());
 
         return ResponseEntity.ok()
-                .header("Content-Type", "application/vnd.openxmlformats-officedocument.sprea
+                .header("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+                .header("Content-Disposition", "attachment; filename=" + filename)
+                .body(data);
+    }
+}

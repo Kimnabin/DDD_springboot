@@ -2,8 +2,8 @@ package com.ddd.demo.service.impl;
 
 import com.ddd.demo.dto.admin.*;
 import com.ddd.demo.entity.order.Order;
+import com.ddd.demo.entity.order.OrderItem;
 import com.ddd.demo.entity.product.Product;
-import com.ddd.demo.entity.user.User;
 import com.ddd.demo.repository.OrderRepository;
 import com.ddd.demo.repository.ProductRepository;
 import com.ddd.demo.repository.UserRepository;
@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
@@ -441,7 +443,7 @@ public class AdminServiceImpl implements AdminService {
 
         // CPU info
         SystemInfoResponse.CpuInfo cpuInfo = SystemInfoResponse.CpuInfo.builder()
-                .cpuUsage(osBean.getProcessCpuLoad() * 100)
+                .cpuUsage(osBean.getVersion() * 100)
                 .systemLoadAverage(osBean.getSystemLoadAverage())
                 .threadCount(Thread.activeCount())
                 .build();

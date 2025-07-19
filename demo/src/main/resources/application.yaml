@@ -1,8 +1,9 @@
 spring:
   application:
-    name: ddd-spring-boot-dem
+    name: ddd-spring-boot-demo
+    version: 1.0.0
 
-    # Thymeleaf configuration
+  # Thymeleaf configuration
   thymeleaf:
     prefix: classpath:/templates/
     suffix: .html
@@ -12,27 +13,47 @@ spring:
     servlet:
       content-type: text/html
 
-  #Static resources
+  # Static resources
   web:
     resources:
       static-locations: classpath:/static/
       add-mappings: true
 
-  #Database configuration
+  # Database configuration
   datasource:
-      url: jdbc:mysql://localhost:33016/demospringdb
-      username: root
-      password: root
-      driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:33016/demospringdb
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
   jpa:
     database: mysql
     show-sql: true
     hibernate:
-      ddl-auto: update # convenient in Dev environment
+      ddl-auto: update
     properties:
       hibernate:
         format_sql: true
-        user_sql_comments: true
+        use_sql_comments: true
+        jdbc:
+          batch_size: 20
+        order_inserts: true
+        order_updates: true
+
+  # Redis configuration
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password:
+      timeout: 2000ms
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 0
+
+  # Mail configuration
   mail:
     host: sandbox.smtp.mailtrap.io
     port: 2525
@@ -44,13 +65,57 @@ spring:
           auth: true
           starttls:
             enable: true
+    default-encoding: UTF-8
+
+  # Security configuration
   security:
     user:
       password: root
       name: root
-      roles: # multiple roles
+      roles:
         - USER
         - ADMIN
+
+# Custom application properties
+app:
+  jwt:
+    secret: mySecretKey123456789012345678901234567890
+    access-token-expiration: 3600000  # 1 hour
+    refresh-token-expiration: 604800000  # 7 days
+
+  order:
+    tax-rate: 0.1
+    standard-shipping-fee: 30000
+    express-shipping-fee: 50000
+    free-shipping-threshold: 500000
+
+# Logging configuration
 logging:
   level:
-    org.springframework.security: debug
+    com.ddd.demo: DEBUG
+    org.springframework.security: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+# Management endpoints
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: always
+
+# Server configuration
+server:
+  port: 8080
+  servlet:
+    context-path: /
+  compression:
+    enabled: true
+  http2:
+    enabled: true

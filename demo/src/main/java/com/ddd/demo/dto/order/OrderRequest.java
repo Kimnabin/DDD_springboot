@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Data
@@ -16,9 +17,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderRequest {
-
-    @NotNull(message = "User ID is required")
-    private Long userId;
 
     @NotEmpty(message = "Order must contain at least one item")
     @Valid
@@ -32,4 +30,11 @@ public class OrderRequest {
     private ShippingAddressRequest shippingAddress;
 
     private String couponCode;
+
+    private String paymentMethod = "CASH_ON_DELIVERY";
+
+    private String shippingMethod = "STANDARD";
+
+    // For calculation purposes
+    private BigDecimal subtotal;
 }
