@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -53,12 +54,8 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public AuthResponse register(RegisterRequest request) {
-        // Validate passwords match
-        if (!request.getPassword().equals(request.getConfirmPassword())) {
-            throw new BusinessException("Passwords do not match");
-        }
+        validatePasswordsMatch(request.getPassword(), request.getConfirmPassword());
 
-        // Create user
         UserCreateRequest userRequest = UserCreateRequest.builder()
                 .username(request.getUsername())
                 .email(request.getEmail())
@@ -67,29 +64,17 @@ public class AuthServiceImpl implements AuthService {
                 .build();
 
         UserResponse user = userService.createUser(userRequest);
-
-        // Generate tokens
         String accessToken = jwtTokenProvider.generateAccessToken(user.getId());
         String refreshToken = jwtTokenProvider.generateRefreshToken(user.getId());
 
-        // Send verification email
         sendVerificationEmail(user.getId(), user.getEmail());
-
         log.info("User registered successfully: {}", user.getUsername());
 
-        return AuthResponse.builder()
-                .accessToken(accessToken)
-                .refreshToken(refreshToken)
-                .tokenType("Bearer")
-                .expiresIn(accessTokenExpiration)
-                .user(user)
-                .issuedAt(LocalDateTime.now())
-                .build();
+        return buildAuthResponse(accessToken, refreshToken, user);
     }
 
     @Override
     public AuthResponse login(LoginRequest request) {
-        // Authenticate
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getUsernameOrEmail(),
@@ -97,116 +82,69 @@ public class AuthServiceImpl implements AuthService {
                 )
         );
 
-        // Get user
         User user = userRepository.findByUsername(authentication.getName())
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
-        // Check if user is active
-        if (!user.getIsActive()) {
-            throw new BusinessException("User account is deactivated");
-        }
+        validateUserActive(user);
 
-        // Generate tokens
         String accessToken = jwtTokenProvider.generateAccessToken(user.getId());
         String refreshToken = jwtTokenProvider.generateRefreshToken(user.getId());
 
-        // Store refresh token if remember me
         if (Boolean.TRUE.equals(request.getRememberMe())) {
             storeRefreshToken(user.getId(), refreshToken);
         }
 
         log.info("User logged in successfully: {}", user.getUsername());
-
-        return AuthResponse.builder()
-                .accessToken(accessToken)
-                .refreshToken(refreshToken)
-                .tokenType("Bearer")
-                .expiresIn(accessTokenExpiration)
-                .user(mapToUserResponse(user))
-                .issuedAt(LocalDateTime.now())
-                .build();
+        return buildAuthResponse(accessToken, refreshToken, mapToUserResponse(user));
     }
 
     @Override
     public AuthResponse refreshToken(String refreshToken) {
-        // Validate refresh token
-        if (!jwtTokenProvider.validateToken(refreshToken)) {
-            throw new BusinessException("Invalid refresh token");
-        }
+        validateRefreshToken(refreshToken);
 
-        // Get user ID from token
         Long userId = jwtTokenProvider.getUserIdFromToken(refreshToken);
-
-        // Get user
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
-        // Generate new tokens
         String newAccessToken = jwtTokenProvider.generateAccessToken(userId);
         String newRefreshToken = jwtTokenProvider.generateRefreshToken(userId);
 
         log.info("Token refreshed for user: {}", user.getUsername());
-
-        return AuthResponse.builder()
-                .accessToken(newAccessToken)
-                .refreshToken(newRefreshToken)
-                .tokenType("Bearer")
-                .expiresIn(accessTokenExpiration)
-                .user(mapToUserResponse(user))
-                .issuedAt(LocalDateTime.now())
-                .build();
+        return buildAuthResponse(newAccessToken, newRefreshToken, mapToUserResponse(user));
     }
 
     @Override
     @CacheEvict(value = "users", allEntries = true)
     public void logout(String token) {
-        // Add token to blacklist
         String key = TOKEN_BLACKLIST_PREFIX + token;
         redisTemplate.opsForValue().set(key, "true", accessTokenExpiration, TimeUnit.MILLISECONDS);
-
         log.info("User logged out successfully");
     }
 
     @Override
     public void changePassword(Long userId, ChangePasswordRequest request) {
-        // Validate new passwords match
-        if (!request.getNewPassword().equals(request.getConfirmNewPassword())) {
-            throw new BusinessException("New passwords do not match");
-        }
-
-        // Change password through user service
+        validatePasswordsMatch(request.getNewPassword(), request.getConfirmNewPassword());
         userService.changePassword(userId, request.getCurrentPassword(), request.getNewPassword());
-
         log.info("Password changed for user ID: {}", userId);
     }
 
     @Override
     public void forgotPassword(String email) {
-        // Find user by email
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with email: " + email));
 
-        // Generate reset token
         String resetToken = UUID.randomUUID().toString();
         String key = RESET_TOKEN_PREFIX + resetToken;
 
-        // Store token in Redis with 24 hour expiration
         redisTemplate.opsForValue().set(key, user.getId().toString(), 24, TimeUnit.HOURS);
-
-        // Send reset email
         emailService.sendPasswordResetEmail(email, resetToken);
-
         log.info("Password reset email sent to: {}", email);
     }
 
     @Override
     public void resetPassword(ResetPasswordRequest request) {
-        // Validate passwords match
-        if (!request.getNewPassword().equals(request.getConfirmPassword())) {
-            throw new BusinessException("Passwords do not match");
-        }
+        validatePasswordsMatch(request.getNewPassword(), request.getConfirmPassword());
 
-        // Get user ID from token
         String key = RESET_TOKEN_PREFIX + request.getToken();
         String userIdStr = redisTemplate.opsForValue().get(key);
 
@@ -214,15 +152,12 @@ public class AuthServiceImpl implements AuthService {
             throw new BusinessException("Invalid or expired reset token");
         }
 
-        // Update password
         Long userId = Long.parseLong(userIdStr);
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         user.setPassword(passwordEncoder.encode(request.getNewPassword()));
         userRepository.save(user);
-
-        // Delete token
         redisTemplate.delete(key);
 
         log.info("Password reset successfully for user: {}", user.getUsername());
@@ -230,7 +165,6 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public void verifyEmail(String token) {
-        // Get user ID from token
         String key = VERIFY_TOKEN_PREFIX + token;
         String userIdStr = redisTemplate.opsForValue().get(key);
 
@@ -238,17 +172,12 @@ public class AuthServiceImpl implements AuthService {
             throw new BusinessException("Invalid or expired verification token");
         }
 
-        // Update user email verified status
         Long userId = Long.parseLong(userIdStr);
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
-        // Mark email as verified (add field if needed)
         userRepository.save(user);
-
-        // Delete token
         redisTemplate.delete(key);
-
         log.info("Email verified for user: {}", user.getUsername());
     }
 
@@ -258,18 +187,15 @@ public class AuthServiceImpl implements AuthService {
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         sendVerificationEmail(userId, user.getEmail());
-
         log.info("Verification email resent to: {}", user.getEmail());
     }
 
     @Override
     public boolean validateToken(String token) {
-        // Check if token is blacklisted
         String key = TOKEN_BLACKLIST_PREFIX + token;
         if (Boolean.TRUE.equals(redisTemplate.hasKey(key))) {
             return false;
         }
-
         return jwtTokenProvider.validateToken(token);
     }
 
@@ -278,15 +204,31 @@ public class AuthServiceImpl implements AuthService {
         return jwtTokenProvider.getUserIdFromToken(token);
     }
 
-    // Helper methods
+    // Private helper methods
+    private void validatePasswordsMatch(String password, String confirmPassword) {
+        if (!password.equals(confirmPassword)) {
+            throw new BusinessException("Passwords do not match");
+        }
+    }
+
+    private void validateUserActive(User user) {
+        if (!user.getIsActive()) {
+            throw new BusinessException("User account is deactivated");
+        }
+    }
+
+    private void validateRefreshToken(String refreshToken) {
+        if (!jwtTokenProvider.validateToken(refreshToken)) {
+            throw new BusinessException("Invalid refresh token");
+        }
+    }
+
     private void sendVerificationEmail(Long userId, String email) {
         String verifyToken = UUID.randomUUID().toString();
         String key = VERIFY_TOKEN_PREFIX + verifyToken;
 
-        // Store token with 48 hour expiration
         redisTemplate.opsForValue().set(key, userId.toString(), 48, TimeUnit.HOURS);
 
-        // Send email
         emailService.sendTemplatedEmail(
                 email,
                 "Verify your email",
@@ -298,6 +240,17 @@ public class AuthServiceImpl implements AuthService {
     private void storeRefreshToken(Long userId, String refreshToken) {
         String key = "refresh:token:" + userId;
         redisTemplate.opsForValue().set(key, refreshToken, refreshTokenExpiration, TimeUnit.MILLISECONDS);
+    }
+
+    private AuthResponse buildAuthResponse(String accessToken, String refreshToken, UserResponse user) {
+        return AuthResponse.builder()
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
+                .tokenType("Bearer")
+                .expiresIn(accessTokenExpiration)
+                .user(user)
+                .issuedAt(LocalDateTime.now())
+                .build();
     }
 
     private UserResponse mapToUserResponse(User user) {

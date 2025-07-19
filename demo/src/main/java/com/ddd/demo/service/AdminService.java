@@ -33,8 +33,6 @@ public interface AdminService {
     // Get audit logs
     Page<AuditLogResponse> getAuditLogs(String entity, String action, Pageable pageable);
 
-    Page<AuditLogResponse> getAuditLogs(String entity, String action, Pageable pageable);
-
     // Send system notification
     void sendSystemNotification(String message, String type);
 

@@ -1,8 +1,7 @@
 package com.ddd.demo.dto.order;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import com.ddd.demo.common.validation.ValidPhoneNumber;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,16 +14,23 @@ import lombok.NoArgsConstructor;
 public class ShippingAddressRequest {
 
     @NotBlank(message = "Recipient name is required")
-    @Size(max = 100, message = "Recipient name must not exceed 100 characters")
+    @Size(min = 2, max = 100, message = "Recipient name must be between 2 and 100 characters")
+    @Pattern(regexp = "^[a-zA-ZÀ-ỹ\\s]+$", message = "Recipient name can only contain letters and spaces")
     private String recipientName;
 
     @NotBlank(message = "Phone number is required")
-    @Pattern(regexp = "^\\+?[0-9]{10,15}$", message = "Phone number must be valid")
+    @ValidPhoneNumber(message = "Please provide a valid Vietnamese phone number (e.g., +84901234567 or 0901234567)")
     private String phoneNumber;
 
     @NotBlank(message = "Street address is required")
-    @Size(max = 255, message = "Street address must not exceed 255 characters")
+    @Size(min = 5, max = 255, message = "Street address must be between 5 and 255 characters")
     private String streetAddress;
+
+    @Size(max = 100, message = "Ward must not exceed 100 characters")
+    private String ward;
+
+    @Size(max = 100, message = "District must not exceed 100 characters")
+    private String district;
 
     @NotBlank(message = "City is required")
     @Size(max = 100, message = "City must not exceed 100 characters")
@@ -35,10 +41,10 @@ public class ShippingAddressRequest {
     private String province;
 
     @NotBlank(message = "Postal code is required")
-    @Pattern(regexp = "^[0-9]{5,10}$", message = "Postal code must be valid")
+    @Pattern(regexp = "^[0-9]{6}$", message = "Vietnamese postal code must be exactly 6 digits")
     private String postalCode;
 
     @NotBlank(message = "Country is required")
-    @Size(max = 100, message = "Country must not exceed 100 characters")
-    private String country;
+    @Pattern(regexp = "^(Vietnam|Việt Nam|VN)$", message = "Only Vietnam is supported")
+    private String country = "Vietnam";
 }

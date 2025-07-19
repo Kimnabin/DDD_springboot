@@ -1,6 +1,9 @@
 package com.ddd.demo.repository;
+
 import com.ddd.demo.entity.member.Profile;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface ProfileRepositoty extends JpaRepository<Profile, Long> {
+@Repository
+public interface ProfileRepository extends JpaRepository<Profile, Long> {
 }

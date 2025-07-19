@@ -2,7 +2,8 @@ package com.ddd.demo;
 
 import com.ddd.demo.entity.board.PDSBoard;
 import com.ddd.demo.entity.board.PDSFile;
-import com.ddd.demo.repository.PDSBoardRepositoy;
+import com.ddd.demo.repository.PDSBoardRepository;
+import com.ddd.demo.repository.pdsBoardRepository;
 import jakarta.transaction.Transactional;
 import lombok.extern.java.Log;
 import org.junit.jupiter.api.Test;
@@ -22,7 +23,7 @@ import java.util.stream.IntStream;
 //@Commit  // Commit the transaction after the test
 public class PDSBoardTests {
     @Autowired
-    private PDSBoardRepositoy pdsBoardRepositoy;
+    private PDSBoardRepository pdsBoardRepository;
 
     @Test
 //    @Transactional
@@ -44,7 +45,7 @@ public class PDSBoardTests {
         pdsBoard.setFiles(Arrays.asList(pdsFile1, pdsFile2));
 
         // save chỉ 1 lần, Hibernate sẽ cascade xuống PDSFile
-        pdsBoardRepositoy.save(pdsBoard);
+        pdsBoardRepository.save(pdsBoard);
 
         log.info("PDSBoard saved!");
     }
@@ -55,7 +56,7 @@ public class PDSBoardTests {
         Long fno = 1L; // ID của PDSFile cần cập nhật
         String newFileName = "updated_file1.txt"; // Tên file mới
 
-        int count = pdsBoardRepositoy.updatePDSFile(fno, newFileName);
+        int count = pdsBoardRepository.updatePDSFile(fno, newFileName);
         log.info("update count: " + count);
     }
 
@@ -66,7 +67,7 @@ public class PDSBoardTests {
         Long targetFileId = 2L; // ID của PDSFile
         String newFileName = "updated_file2.txt";
 
-        Optional<PDSBoard> result = pdsBoardRepositoy.findById(boardId);
+        Optional<PDSBoard> result = pdsBoardRepository.findById(boardId);
         result.ifPresent(board -> {
             log.info("Board found, updating file...");
             board.getFiles().forEach(file -> {
@@ -74,7 +75,7 @@ public class PDSBoardTests {
                     file.setPdsFile(newFileName);
                 }
             });
-            pdsBoardRepositoy.save(board);
+            pdsBoardRepository.save(board);
         });
     }
 
@@ -82,7 +83,7 @@ public class PDSBoardTests {
     @Transactional
     public void deletePDSFileTest() {
         Long fno = 2L; // ID của PDSFile cần xóa
-        int count = pdsBoardRepositoy.deletePDSFile(fno);
+        int count = pdsBoardRepository.deletePDSFile(fno);
         log.info("delete count: " + count);
     }
 
@@ -108,18 +109,18 @@ public class PDSBoardTests {
 
             list.add(pdsBoard);
         });
-        pdsBoardRepositoy.saveAll(list);
+        pdsBoardRepository.saveAll(list);
     }
 
     @Test
     public void viewSummary() {
-        pdsBoardRepositoy.getSummary().forEach(arr ->
+        pdsBoardRepository.getSummary().forEach(arr ->
                 log.info(Arrays.toString(arr)));
     }
 
     @Test
     public void viewSummaryUpdate() {
-        List<Object[]> summary = pdsBoardRepositoy.getSummary();
+        List<Object[]> summary = pdsBoardRepository.getSummary();
         summary.forEach(row -> {
             PDSBoard board = (PDSBoard) row[0];
             Long fileCount = (Long) row[1];

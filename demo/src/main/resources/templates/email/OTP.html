@@ -1,38 +1,278 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>OTP Verification</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Verification - OTP</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            padding: 30px 20px;
+            text-align: center;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px 30px;
+        }
+
+        .content h2 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .content p {
+            color: #555;
+            font-size: 16px;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .otp-container {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            margin: 30px 0;
+            border: 2px dashed #667eea;
+        }
+
+        .otp-label {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .otp-code {
+            font-size: 36px;
+            font-weight: bold;
+            color: #667eea;
+            letter-spacing: 8px;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border: 2px solid #667eea;
+        }
+
+        .validity-info {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0;
+            color: #856404;
+        }
+
+        .validity-info strong {
+            color: #d68910;
+        }
+
+        .security-note {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0;
+            color: #0c5460;
+            font-size: 14px;
+        }
+
+        .button-container {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .verify-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .verify-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .footer {
+            background: #f8f9fa;
+            padding: 30px 20px;
+            text-align: center;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .footer p {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .social-links {
+            margin: 20px 0;
+        }
+
+        .social-links a {
+            display: inline-block;
+            margin: 0 10px;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .social-links a:hover {
+            color: #764ba2;
+        }
+
+        .copyright {
+            font-size: 12px;
+            color: #999;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .email-container {
+                margin: 10px;
+                border-radius: 10px;
+            }
+
+            .content {
+                padding: 30px 20px;
+            }
+
+            .otp-code {
+                font-size: 28px;
+                letter-spacing: 4px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
 </head>
-<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;">
-<table align="center" width="100%" cellpadding="0" cellspacing="0" style="max-width: 600px; background-color: #ffffff; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-    <tr>
-        <td style="background-color: #0d6efd; padding: 20px; text-align: center;">
-            <h1 style="color: white; margin: 0;">congducDEV</h1>
-        </td>
-    </tr>
-    <tr>
-        <td style="padding: 30px;">
-            <h2 style="color: #333;">Xác minh địa chỉ email của bạn</h2>
-            <p style="color: #555;">Chào bạn,</p>
-            <p style="color: #555;">Chúng tôi đã nhận được yêu cầu xác minh email của bạn. Vui lòng sử dụng mã OTP bên dưới để hoàn tất quá trình xác thực:</p>
+<body>
+<div class="email-container">
+    <!-- Header -->
+    <div class="header">
+        <h1>🔐 Email Verification</h1>
+        <p>Secure access to your account</p>
+    </div>
 
-            <div style="text-align: center; margin: 30px 0;">
-                <span style="display: inline-block; font-size: 28px; letter-spacing: 8px; font-weight: bold; color: #0d6efd;">{{OTP_CODE}}</span>
-            </div>
+    <!-- Content -->
+    <div class="content">
+        <h2>Verify Your Email Address</h2>
 
-            <p style="color: #555;">Mã OTP này có hiệu lực trong vòng <strong>5 phút</strong>.</p>
-            <p style="color: #555;">Nếu bạn không yêu cầu xác minh này, vui lòng bỏ qua email này.</p>
+        <p>Hello there!</p>
 
-            <p style="margin-top: 40px; color: #777;">Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi.</p>
-            <p style="color: #777;"><strong>congducDEV Team</strong></p>
-        </td>
-    </tr>
-    <tr>
-        <td style="background-color: #f1f1f1; padding: 15px; text-align: center; color: #999; font-size: 12px;">
-            © 2025 congducDEV. All rights reserved.
-        </td>
-    </tr>
-</table>
+        <p>We received a request to verify your email address. To complete the verification process, please use the One-Time Password (OTP) below:</p>
+
+        <div class="otp-container">
+            <div class="otp-label">Your Verification Code</div>
+            <div class="otp-code" th:text="${otpCode ?: '123456'}">123456</div>
+        </div>
+
+        <div class="validity-info">
+            <strong>⏰ Important:</strong> This verification code is valid for <strong th:text="${validity ?: '5 minutes'}">5 minutes</strong> only. Please use it promptly to complete your verification.
+        </div>
+
+        <div class="security-note">
+            <strong>🛡️ Security Notice:</strong> If you didn't request this verification, please ignore this email. For your security, never share this code with anyone. Our team will never ask for your verification code.
+        </div>
+
+        <div class="button-container">
+            <a href="#" class="verify-button" th:href="${verifyLink ?: '#'}">
+                ✅ Verify Email Address
+            </a>
+        </div>
+
+        <p>If the button above doesn't work, you can manually enter the verification code in the application.</p>
+
+        <p style="margin-top: 40px;">
+            <strong>Need Help?</strong><br>
+            If you're having trouble with verification, please contact our support team at
+            <a href="mailto:support@congducdev.com" style="color: #667eea;">support@congducdev.com</a>
+        </p>
+
+        <p style="margin-top: 30px; color: #777;">
+            Thank you for choosing our service!<br>
+            <strong>🚀 The CongducDEV Team</strong>
+        </p>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p><strong>CongducDEV</strong> - Building the Future of Web Development</p>
+
+        <div class="social-links">
+            <a href="#" th:href="${socialLinks?.website ?: '#'}">🌐 Website</a>
+            <a href="#" th:href="${socialLinks?.github ?: '#'}">📱 GitHub</a>
+            <a href="#" th:href="${socialLinks?.linkedin ?: '#'}">💼 LinkedIn</a>
+            <a href="#" th:href="${socialLinks?.twitter ?: '#'}">🐦 Twitter</a>
+        </div>
+
+        <p>
+            📧 <a href="mailto:contact@congducdev.com" style="color: #667eea;">contact@congducdev.com</a> |
+            📞 <span th:text="${supportPhone ?: '+1 (555) 123-4567'}">+1 (555) 123-4567</span>
+        </p>
+
+        <div class="copyright">
+            <p>&copy; <span th:text="${#dates.year(#dates.createNow())}">2025</span> CongducDEV. All rights reserved.</p>
+            <p>
+                <a href="#" style="color: #999; margin: 0 5px;" th:href="${legalLinks?.privacy ?: '#'}">Privacy Policy</a> |
+                <a href="#" style="color: #999; margin: 0 5px;" th:href="${legalLinks?.terms ?: '#'}">Terms of Service</a> |
+                <a href="#" style="color: #999; margin: 0 5px;" th:href="${legalLinks?.unsubscribe ?: '#'}">Unsubscribe</a>
+            </p>
+        </div>
+    </div>
+</div>
 </body>
 </html>

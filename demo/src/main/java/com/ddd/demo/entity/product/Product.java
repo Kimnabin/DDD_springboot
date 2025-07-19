@@ -7,14 +7,14 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "products", indexes = {
         @Index(name = "idx_product_name", columnList = "productName"),
         @Index(name = "idx_product_price", columnList = "price"),
-        @Index(name = "idx_product_status", columnList = "status")
+        @Index(name = "idx_product_status", columnList = "status"),
+        @Index(name = "idx_product_sku", columnList = "sku", unique = true)
 })
 @Getter
 @Setter
@@ -36,7 +36,7 @@ public class Product extends BaseEntity {
     @Builder.Default
     private Integer stockQuantity = 0;
 
-    @Column(length = 50)
+    @Column(unique = true, length = 50)
     private String sku; // Stock Keeping Unit
 
     @Column(length = 100)
@@ -48,7 +48,7 @@ public class Product extends BaseEntity {
     private ProductStatus status = ProductStatus.ACTIVE;
 
     // One product can be in many order items
-    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @Builder.Default
     private Set<OrderItem> orderItems = new HashSet<>();
 

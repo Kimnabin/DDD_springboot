@@ -2,8 +2,8 @@ package com.ddd.demo.repository;
 
 import com.ddd.demo.entity.feed.Feed;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface FeedRepositoty extends JpaRepository<Feed, Long> {
-
-
+@Repository
+public interface FeedRepository extends JpaRepository<Feed, Long> {
 }

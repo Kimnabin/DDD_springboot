@@ -13,27 +13,27 @@ import java.lang.annotation.*;
 
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = UniqueUsername.UniqueUsernameValidator.class)
+@Constraint(validatedBy = UniqueEmail.UniqueEmailValidator.class)
 @Documented
-public @interface UniqueUsername {
-    String message() default "Username already exists";
+public @interface UniqueEmail {
+    String message() default "Email already exists";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 
     @Component
-    class UniqueUsernameValidator implements ConstraintValidator<UniqueUsername, String> {
+    class UniqueEmailValidator implements ConstraintValidator<UniqueEmail, String> {
 
         @Autowired
         private DatabaseValidationService validationService;
 
         @Override
-        public boolean isValid(String username, ConstraintValidatorContext context) {
-            if (!StringUtils.hasText(username)) {
+        public boolean isValid(String email, ConstraintValidatorContext context) {
+            if (!StringUtils.hasText(email)) {
                 return true; // Let @NotBlank handle null/empty validation
             }
 
             try {
-                return !validationService.usernameExists(username);
+                return !validationService.emailExists(email);
             } catch (Exception e) {
                 // Log error and return true to avoid blocking registration due to database issues
                 return true;

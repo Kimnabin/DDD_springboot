@@ -2,8 +2,8 @@ package com.ddd.demo;
 
 import com.ddd.demo.entity.feed.Feed;
 import com.ddd.demo.entity.user.User;
-import com.ddd.demo.repository.FeedRepositoty;
-import com.ddd.demo.repository.UserRepositoty;
+import com.ddd.demo.repository.FeedRepository;
+import com.ddd.demo.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,41 +16,37 @@ import java.util.List;
 public class UserTest {
 
     @Autowired
-    private FeedRepositoty feedRepositoty;
+    private FeedRepository feedRepository;
 
     @Autowired
-    private UserRepositoty userRepositoty;
-
-    // Test methods can be added here to test the functionality of UserRepositoty and FeedRepositoty
+    private UserRepository userRepository;
 
     @Test
     @Transactional
     @Rollback(false)
     void oneToManyTest() {
-        // 1. Create a user and save it
         User user = new User();
         Feed feed = new Feed();
 
-        user.setUserName("testUser");
+        user.setUsername("testUser");
         user.setPassword("testPassword");
 
         feed.setTitle("testFeedTitle1");
         feed.setDescription("testFeedDescription1");
-        user.setFeedList(List.of(feed));
+        user.setFeeds(List.of(feed));
         feed.setUser(user);
 
-        userRepositoty.save(user);
-        feedRepositoty.save(feed);
+        userRepository.save(user);
+        feedRepository.save(feed);
     }
 
     @Test
     @Transactional
     void selectOneToManyTest() {
-        // 2. Retrieve the user and their feeds
-        User user = userRepositoty.findById(1L).orElse(null);
+        User user = userRepository.findById(1L).orElse(null);
         if (user != null) {
-            System.out.println("User: " + user.getUserName());
-            user.getFeedList().forEach(feed -> {
+            System.out.println("User: " + user.getUsername());
+            user.getFeeds().forEach(feed -> {
                 System.out.println("Feed Title: " + feed.getTitle());
                 System.out.println("Feed Description: " + feed.getDescription());
             });

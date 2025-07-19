@@ -3,6 +3,10 @@ spring:
     name: ddd-spring-boot-demo
     version: 1.0.0
 
+  # Profile configuration
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
+
   # Thymeleaf configuration
   thymeleaf:
     prefix: classpath:/templates/
@@ -10,112 +14,283 @@ spring:
     mode: HTML
     encoding: UTF-8
     cache: false
-    servlet:
-      content-type: text/html
+    check-template-location: true
 
   # Static resources
   web:
     resources:
       static-locations: classpath:/static/
       add-mappings: true
+      cache:
+        period: 31536000 # 1 year for production
 
   # Database configuration
   datasource:
-    url: jdbc:mysql://localhost:33016/demospringdb
-    username: root
-    password: root
+    url: ${DB_URL:jdbc:mysql://localhost:33016/demospringdb}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:root}
     driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: ${DB_POOL_SIZE:20}
+      minimum-idle: ${DB_MIN_IDLE:5}
+      idle-timeout: 300000
+      max-lifetime: 1200000
+      connection-timeout: 20000
 
   jpa:
     database: mysql
-    show-sql: true
+    show-sql: ${JPA_SHOW_SQL:false}
     hibernate:
-      ddl-auto: update
+      ddl-auto: ${JPA_DDL_AUTO:update}
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     properties:
       hibernate:
         format_sql: true
-        use_sql_comments: true
+        use_sql_comments: false
         jdbc:
-          batch_size: 20
+          batch_size: 25
+          fetch_size: 50
         order_inserts: true
         order_updates: true
+        generate_statistics: false
+        cache:
+          use_second_level_cache: false
 
   # Redis configuration
   data:
     redis:
-      host: localhost
-      port: 6379
-      password:
-      timeout: 2000ms
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+      timeout: 5000ms
+      database: ${REDIS_DATABASE:0}
       lettuce:
         pool:
           max-active: 8
           max-idle: 8
-          min-idle: 0
+          min-idle: 2
+          max-wait: -1ms
 
   # Mail configuration
   mail:
-    host: sandbox.smtp.mailtrap.io
-    port: 2525
-    username: efe5616f4273f9
-    password: 39b498969aa7c5
+    host: ${MAIL_HOST:sandbox.smtp.mailtrap.io}
+    port: ${MAIL_PORT:2525}
+    username: ${MAIL_USERNAME:efe5616f4273f9}
+    password: ${MAIL_PASSWORD:39b498969aa7c5}
     properties:
       mail:
         smtp:
           auth: true
           starttls:
             enable: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
     default-encoding: UTF-8
+
+  # Jackson configuration
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+      fail-on-empty-beans: false
+    deserialization:
+      fail-on-unknown-properties: false
+    default-property-inclusion: non_null
+    time-zone: UTC
 
   # Security configuration
   security:
     user:
-      password: root
-      name: root
-      roles:
-        - USER
-        - ADMIN
+      password: ${ADMIN_PASSWORD:admin}
+      name: ${ADMIN_USERNAME:admin}
+      roles: USER,ADMIN
 
 # Custom application properties
 app:
+  name: ${spring.application.name}
+  version: ${spring.application.version}
+
   jwt:
-    secret: mySecretKey123456789012345678901234567890
-    access-token-expiration: 3600000  # 1 hour
-    refresh-token-expiration: 604800000  # 7 days
+    secret: ${JWT_SECRET:mySecretKey123456789012345678901234567890123456789012345678901234567890}
+    access-token-expiration: ${JWT_ACCESS_EXPIRATION:3600000}  # 1 hour
+    refresh-token-expiration: ${JWT_REFRESH_EXPIRATION:604800000}  # 7 days
 
   order:
-    tax-rate: 0.1
-    standard-shipping-fee: 30000
-    express-shipping-fee: 50000
-    free-shipping-threshold: 500000
+    tax-rate: ${ORDER_TAX_RATE:0.1}
+    standard-shipping-fee: ${ORDER_STANDARD_SHIPPING:30000}
+    express-shipping-fee: ${ORDER_EXPRESS_SHIPPING:50000}
+    free-shipping-threshold: ${ORDER_FREE_SHIPPING_THRESHOLD:500000}
+
+  email:
+    from-name: ${EMAIL_FROM_NAME:CongducDEV Team}
+    from-email: ${EMAIL_FROM:noreply@congducdev.com}
+    support-email: ${EMAIL_SUPPORT:support@congducdev.com}
+
+  cors:
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:3000,http://localhost:8080}
+    allowed-methods: ${CORS_ALLOWED_METHODS:GET,POST,PUT,DELETE,PATCH,OPTIONS}
+    allowed-headers: ${CORS_ALLOWED_HEADERS:*}
+    exposed-headers: ${CORS_EXPOSED_HEADERS:Authorization,Cache-Control,Content-Type}
 
 # Logging configuration
 logging:
   level:
-    com.ddd.demo: DEBUG
-    org.springframework.security: DEBUG
-    org.hibernate.SQL: DEBUG
-    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    root: ${LOG_LEVEL_ROOT:INFO}
+    com.ddd.demo: ${LOG_LEVEL_APP:DEBUG}
+    org.springframework.security: ${LOG_LEVEL_SECURITY:WARN}
+    org.hibernate.SQL: ${LOG_LEVEL_SQL:WARN}
+    org.hibernate.type.descriptor.sql.BasicBinder: ${LOG_LEVEL_SQL_PARAMS:WARN}
+    org.springframework.cache: ${LOG_LEVEL_CACHE:DEBUG}
   pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
-    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+    console: "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+  file:
+    name: ${LOG_FILE:logs/application.log}
+    max-size: ${LOG_FILE_MAX_SIZE:100MB}
+    max-history: ${LOG_FILE_MAX_HISTORY:30}
 
-# Management endpoints
+# Management endpoints (Actuator)
 management:
   endpoints:
     web:
       exposure:
-        include: health,info,metrics,prometheus
+        include: ${ACTUATOR_ENDPOINTS:health,info,metrics,prometheus}
+      base-path: /actuator
   endpoint:
     health:
-      show-details: always
+      show-details: ${ACTUATOR_HEALTH_DETAILS:when_authorized}
+      show-components: always
+    info:
+      enabled: true
+  info:
+    env:
+      enabled: true
+    java:
+      enabled: true
+    os:
+      enabled: true
+  metrics:
+    export:
+      prometheus:
+        enabled: ${PROMETHEUS_ENABLED:true}
 
 # Server configuration
 server:
-  port: 8080
+  port: ${SERVER_PORT:8080}
   servlet:
-    context-path: /
+    context-path: ${SERVER_CONTEXT_PATH:/}
+    session:
+      timeout: ${SESSION_TIMEOUT:30m}
   compression:
     enabled: true
+    mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json
+    min-response-size: 1024
   http2:
+    enabled: ${HTTP2_ENABLED:true}
+  error:
+    include-message: always
+    include-binding-errors: always
+    include-stacktrace: ${SERVER_ERROR_INCLUDE_STACKTRACE:never}
+    include-exception: false
+
+# Springdoc OpenAPI configuration
+springdoc:
+  api-docs:
+    enabled: ${OPENAPI_ENABLED:true}
+    path: /v3/api-docs
+  swagger-ui:
+    enabled: ${SWAGGER_UI_ENABLED:true}
+    path: /swagger-ui.html
+    operations-sorter: method
+    tags-sorter: alpha
+    doc-expansion: none
+    disable-swagger-default-url: true
+
+---
+# Development profile
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+
+logging:
+  level:
+    com.ddd.demo: DEBUG
+    org.hibernate.SQL: DEBUG
+
+---
+# Test profile
+spring:
+  config:
+    activate:
+      on-profile: test
+
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+
+  h2:
+    console:
+      enabled: true
+
+  mail:
+    host: localhost
+    port: 1025
+
+app:
+  jwt:
+    secret: testSecretKey123456789012345678901234567890
+    access-token-expiration: 3600000
+    refresh-token-expiration: 604800000
+
+logging:
+  level:
+    com.ddd.demo: DEBUG
+
+---
+# Production profile
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: validate
+
+  web:
+    resources:
+      cache:
+        period: 31536000 # 1 year
+
+logging:
+  level:
+    root: WARN
+    com.ddd.demo: INFO
+    org.springframework.security: WARN
+
+server:
+  compression:
     enabled: true
+  error:
+    include-stacktrace: never
+
+management:
+  endpoint:
+    health:
+      show-details: never

@@ -1,10 +1,10 @@
 package com.ddd.demo.dto.user;
 
+import com.ddd.demo.common.validation.StrongPassword;
+import com.ddd.demo.common.validation.ValidPhoneNumber;
+import com.ddd.demo.common.validation.ValidEnum;
 import com.ddd.demo.entity.user.User;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,18 +27,23 @@ public class UserCreateRequest {
     private String email;
 
     @NotBlank(message = "Password is required")
-    @Size(min = 6, max = 100, message = "Password must be between 6 and 100 characters")
-    @Pattern(
-            regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{6,}$",
-            message = "Password must contain at least one digit, one lowercase, one uppercase, one special character, and no whitespace"
+    @StrongPassword(
+            minLength = 6,
+            requireUppercase = true,
+            requireLowercase = true,
+            requireDigit = true,
+            requireSpecialChar = true,
+            message = "Password must meet security requirements"
     )
     private String password;
 
-    @Size(max = 100, message = "Full name must not exceed 100 characters")
+    @Size(min = 2, max = 100, message = "Full name must be between 2 and 100 characters")
+    @Pattern(regexp = "^[a-zA-ZÀ-ỹ\\s]+$", message = "Full name can only contain letters and spaces")
     private String fullName;
 
-    @Pattern(regexp = "^\\+?[0-9]{10,15}$", message = "Phone number must be valid")
+    @ValidPhoneNumber(required = false, message = "Please provide a valid Vietnamese phone number")
     private String phoneNumber;
 
-    private User.UserRole role;
+    @ValidEnum(enumClass = User.UserRole.class, message = "Invalid user role")
+    private String role;
 }

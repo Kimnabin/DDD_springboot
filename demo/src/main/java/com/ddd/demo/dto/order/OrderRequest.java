@@ -1,9 +1,9 @@
 package com.ddd.demo.dto.order;
 
+import com.ddd.demo.common.validation.ValidEnum;
+import com.ddd.demo.entity.order.Order;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,6 +19,7 @@ import java.util.List;
 public class OrderRequest {
 
     @NotEmpty(message = "Order must contain at least one item")
+    @Size(max = 50, message = "Order cannot contain more than 50 items")
     @Valid
     private List<OrderItemRequest> items;
 
@@ -29,12 +30,16 @@ public class OrderRequest {
     @Valid
     private ShippingAddressRequest shippingAddress;
 
+    @Pattern(regexp = "^[A-Z0-9]{4,20}$", message = "Coupon code must be 4-20 alphanumeric characters")
     private String couponCode;
 
+    @ValidEnum(enumClass = Order.PaymentMethod.class, message = "Invalid payment method")
     private String paymentMethod = "CASH_ON_DELIVERY";
 
+    @ValidEnum(enumClass = Order.ShippingMethod.class, message = "Invalid shipping method")
     private String shippingMethod = "STANDARD";
 
-    // For calculation purposes
+    @DecimalMin(value = "0.01", message = "Subtotal must be greater than 0")
+    @DecimalMax(value = "999999999.99", message = "Subtotal is too large")
     private BigDecimal subtotal;
 }

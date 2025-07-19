@@ -1,4 +1,4 @@
-package com.ddd.demo.common.util;
+package com.ddd.demo.common.utils;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
