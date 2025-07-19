@@ -1,0 +1,341 @@
+2025-07-19 15:05:05.696 [main] INFO  com.ddd.demo.DemoApplication - Starting DemoApplication using Java 21.0.6 with PID 18952 (E:\Springboot_tips\demo\demo\target\classes started by ducvu in E:\Springboot_tips\demo)
+2025-07-19 15:05:05.698 [main] DEBUG com.ddd.demo.DemoApplication - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-07-19 15:05:05.699 [main] INFO  com.ddd.demo.DemoApplication - The following 1 profile is active: "dev"
+2025-07-19 15:05:06.156 [main] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanDefinitionStoreException: Failed to parse configuration class [com.ddd.demo.DemoApplication]
+2025-07-19 15:05:06.301 [main] ERROR o.s.boot.SpringApplication - Application run failed
+org.springframework.beans.factory.BeanDefinitionStoreException: Failed to parse configuration class [com.ddd.demo.DemoApplication]
+	at org.springframework.context.annotation.ConfigurationClassParser.parse(ConfigurationClassParser.java:179)
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.processConfigBeanDefinitions(ConfigurationClassPostProcessor.java:416)
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.postProcessBeanDefinitionRegistry(ConfigurationClassPostProcessor.java:289)
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanDefinitionRegistryPostProcessors(PostProcessorRegistrationDelegate.java:349)
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:118)
+	at org.springframework.context.support.AbstractApplicationContext.invokeBeanFactoryPostProcessors(AbstractApplicationContext.java:788)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:606)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:754)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:456)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:334)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1354)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1343)
+	at com.ddd.demo.DemoApplication.main(DemoApplication.java:12)
+Caused by: org.springframework.context.annotation.ConflictingBeanDefinitionException: Annotation-specified bean name 'adminController' for bean class [com.ddd.demo.controller.security.AdminController] conflicts with existing, non-compatible bean definition of same name and class [com.ddd.demo.controller.admin.AdminController]
+	at org.springframework.context.annotation.ClassPathBeanDefinitionScanner.checkCandidate(ClassPathBeanDefinitionScanner.java:361)
+	at org.springframework.context.annotation.ClassPathBeanDefinitionScanner.doScan(ClassPathBeanDefinitionScanner.java:288)
+	at org.springframework.context.annotation.ComponentScanAnnotationParser.parse(ComponentScanAnnotationParser.java:128)
+	at org.springframework.context.annotation.ConfigurationClassParser.doProcessConfigurationClass(ConfigurationClassParser.java:306)
+	at org.springframework.context.annotation.ConfigurationClassParser.processConfigurationClass(ConfigurationClassParser.java:246)
+	at org.springframework.context.annotation.ConfigurationClassParser.parse(ConfigurationClassParser.java:197)
+	at org.springframework.context.annotation.ConfigurationClassParser.parse(ConfigurationClassParser.java:165)
+	... 13 common frames omitted
+2025-07-19 15:07:08.090 [main] INFO  com.ddd.demo.DemoApplication - Starting DemoApplication using Java 21.0.6 with PID 21204 (E:\Springboot_tips\demo\demo\target\classes started by ducvu in E:\Springboot_tips\demo)
+2025-07-19 15:07:08.092 [main] DEBUG com.ddd.demo.DemoApplication - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-07-19 15:07:08.094 [main] INFO  com.ddd.demo.DemoApplication - The following 1 profile is active: "dev"
+2025-07-19 15:07:09.984 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-07-19 15:07:09.987 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-07-19 15:07:10.299 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 291 ms. Found 9 JPA repository interfaces.
+2025-07-19 15:07:10.318 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-07-19 15:07:10.320 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-07-19 15:07:10.347 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.ddd.demo.repository.FeedRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-07-19 15:07:10.348 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.ddd.demo.repository.FreeBoardReplyRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-07-19 15:07:10.348 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.ddd.demo.repository.FreeBoardRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-07-19 15:07:10.349 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.ddd.demo.repository.MemberRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-07-19 15:07:10.350 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.ddd.demo.repository.OrderRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-07-19 15:07:10.351 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.ddd.demo.repository.PDSBoardRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-07-19 15:07:10.351 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.ddd.demo.repository.ProductRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-07-19 15:07:10.351 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.ddd.demo.repository.ProfileRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-07-19 15:07:10.352 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.ddd.demo.repository.UserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-07-19 15:07:10.352 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 17 ms. Found 0 Redis repository interfaces.
+2025-07-19 15:07:10.773 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'validationConfiguration' of type [com.ddd.demo.config.ValidationConfiguration$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). The currently created BeanPostProcessor [methodValidationPostProcessor] is declared through a non-static factory method on that class; consider declaring it as static instead.
+2025-07-19 15:07:10.782 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'validator' of type [org.springframework.validation.beanvalidation.LocalValidatorFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [methodValidationPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-07-19 15:07:11.606 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-07-19 15:07:11.623 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-07-19 15:07:11.625 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-07-19 15:07:11.725 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-07-19 15:07:11.726 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 3569 ms
+2025-07-19 15:07:12.245 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-07-19 15:07:12.331 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.4.Final
+2025-07-19 15:07:12.382 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-07-19 15:07:12.706 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-07-19 15:07:12.756 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-07-19 15:07:13.202 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@d763b06
+2025-07-19 15:07:13.206 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-07-19 15:07:13.279 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-07-19 15:07:15.178 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-07-19 15:07:15.267 [main] DEBUG org.hibernate.SQL - 
+    alter table java_feed_001 
+       add column userId bigint not null
+2025-07-19 15:07:15.349 [main] DEBUG org.hibernate.SQL - 
+    create table order_items (
+        id bigint not null auto_increment,
+        createdAt datetime(6),
+        isDeleted bit not null,
+        updatedAt datetime(6),
+        discountAmount decimal(10,2),
+        notes varchar(500),
+        quantity integer not null,
+        totalPrice decimal(10,2) not null,
+        unitPrice decimal(10,2) not null,
+        order_id bigint not null,
+        product_id bigint not null,
+        primary key (id)
+    ) engine=InnoDB
+2025-07-19 15:07:15.393 [main] DEBUG org.hibernate.SQL - 
+    create table orders (
+        id bigint not null auto_increment,
+        createdAt datetime(6),
+        isDeleted bit not null,
+        updatedAt datetime(6),
+        cancellationReason varchar(500),
+        cancelledDate datetime(6),
+        couponCode varchar(50),
+        deliveredDate datetime(6),
+        discountAmount decimal(10,2),
+        notes varchar(500),
+        orderNumber varchar(20) not null,
+        paymentDate datetime(6),
+        paymentMethod enum ('CASH_ON_DELIVERY','CREDIT_CARD','DEBIT_CARD','BANK_TRANSFER','E_WALLET','PAYPAL'),
+        paymentStatus enum ('UNPAID','PAID','REFUNDED','FAILED'),
+        shippedDate datetime(6),
+        city varchar(100),
+        country varchar(100),
+        district varchar(100),
+        postal_code varchar(10),
+        province varchar(100),
+        recipient_name varchar(100),
+        recipient_phone varchar(20),
+        street_address varchar(255),
+        ward varchar(100),
+        shippingFee decimal(10,2),
+        shippingMethod enum ('STANDARD','EXPRESS','OVERNIGHT','PICKUP'),
+        status enum ('PENDING','CONFIRMED','PROCESSING','SHIPPED','DELIVERED','CANCELLED','REFUNDED') not null,
+        subtotal decimal(10,2) not null,
+        taxAmount decimal(10,2),
+        totalAmount decimal(10,2) not null,
+        trackingNumber varchar(255),
+        user_id bigint not null,
+        primary key (id)
+    ) engine=InnoDB
+2025-07-19 15:07:15.437 [main] DEBUG org.hibernate.SQL - 
+    create table products (
+        id bigint not null auto_increment,
+        createdAt datetime(6),
+        isDeleted bit not null,
+        updatedAt datetime(6),
+        category varchar(100),
+        description TEXT,
+        price decimal(10,2) not null,
+        productName varchar(255) not null,
+        sku varchar(50),
+        status enum ('ACTIVE','INACTIVE','OUT_OF_STOCK') not null,
+        stockQuantity integer not null,
+        primary key (id)
+    ) engine=InnoDB
+2025-07-19 15:07:15.481 [main] DEBUG org.hibernate.SQL - 
+    alter table tbl_free_replies_001 
+       add column replyDate datetime(6)
+2025-07-19 15:07:15.553 [main] DEBUG org.hibernate.SQL - 
+    alter table tbl_free_replies_001 
+       add column replyText varchar(255) not null
+2025-07-19 15:07:15.621 [main] DEBUG org.hibernate.SQL - 
+    alter table tbl_free_replies_001 
+       add column updateDate datetime(6)
+2025-07-19 15:07:15.742 [main] DEBUG org.hibernate.SQL - 
+    alter table tbl_freeboard_001 
+       add column regDate datetime(6)
+2025-07-19 15:07:15.780 [main] DEBUG org.hibernate.SQL - 
+    alter table tbl_freeboard_001 
+       add column updateDate datetime(6)
+2025-07-19 15:07:15.814 [main] DEBUG org.hibernate.SQL - 
+    alter table tbl_pds_board_001 
+       add column pName varchar(255)
+2025-07-19 15:07:15.843 [main] DEBUG org.hibernate.SQL - 
+    alter table tbl_pds_board_001 
+       add column pWriter varchar(255)
+2025-07-19 15:07:15.870 [main] DEBUG org.hibernate.SQL - 
+    alter table tbl_pds_file_001 
+       add column pdsFile varchar(255)
+2025-07-19 15:07:15.903 [main] DEBUG org.hibernate.SQL - 
+    create table users (
+        id bigint not null auto_increment,
+        createdAt datetime(6),
+        isDeleted bit not null,
+        updatedAt datetime(6),
+        email varchar(100) not null,
+        fullName varchar(100),
+        isActive bit not null,
+        password varchar(255) not null,
+        phoneNumber varchar(20),
+        role enum ('USER','ADMIN','MODERATOR') not null,
+        username varchar(50) not null,
+        primary key (id)
+    ) engine=InnoDB
+2025-07-19 15:07:15.941 [main] DEBUG org.hibernate.SQL - 
+    create index idx_order_id 
+       on order_items (order_id)
+2025-07-19 15:07:15.967 [main] DEBUG org.hibernate.SQL - 
+    create index idx_product_id 
+       on order_items (product_id)
+2025-07-19 15:07:15.992 [main] DEBUG org.hibernate.SQL - 
+    create index idx_user_id 
+       on orders (user_id)
+2025-07-19 15:07:16.028 [main] DEBUG org.hibernate.SQL - 
+    create index idx_order_status 
+       on orders (status)
+2025-07-19 15:07:16.130 [main] DEBUG org.hibernate.SQL - 
+    create index idx_created_at 
+       on orders (createdAt)
+2025-07-19 15:07:16.185 [main] DEBUG org.hibernate.SQL - 
+    alter table orders 
+       drop index idx_order_number
+2025-07-19 15:07:16.223 [main] DEBUG org.hibernate.SQL - 
+    alter table orders 
+       add constraint idx_order_number unique (orderNumber)
+2025-07-19 15:07:16.254 [main] DEBUG org.hibernate.SQL - 
+    create index idx_product_name 
+       on products (productName)
+2025-07-19 15:07:16.285 [main] DEBUG org.hibernate.SQL - 
+    create index idx_product_price 
+       on products (price)
+2025-07-19 15:07:16.318 [main] DEBUG org.hibernate.SQL - 
+    create index idx_product_status 
+       on products (status)
+2025-07-19 15:07:16.348 [main] DEBUG org.hibernate.SQL - 
+    alter table products 
+       drop index idx_product_sku
+2025-07-19 15:07:16.352 [main] DEBUG org.hibernate.SQL - 
+    alter table products 
+       add constraint idx_product_sku unique (sku)
+2025-07-19 15:07:16.392 [main] DEBUG org.hibernate.SQL - 
+    alter table users 
+       drop index idx_username
+2025-07-19 15:07:16.397 [main] DEBUG org.hibernate.SQL - 
+    alter table users 
+       add constraint idx_username unique (username)
+2025-07-19 15:07:16.426 [main] DEBUG org.hibernate.SQL - 
+    alter table users 
+       drop index idx_email
+2025-07-19 15:07:16.431 [main] DEBUG org.hibernate.SQL - 
+    alter table users 
+       add constraint idx_email unique (email)
+2025-07-19 15:07:16.484 [main] DEBUG org.hibernate.SQL - 
+    alter table java_feed_001 
+       add constraint FK7etyvgl2ru9dvgqm58ekeo3w2 
+       foreign key (userId) 
+       references users (id)
+2025-07-19 15:07:16.612 [main] DEBUG org.hibernate.SQL - 
+    alter table order_items 
+       add constraint FKbioxgbv59vetrxe0ejfubep1w 
+       foreign key (order_id) 
+       references orders (id)
+2025-07-19 15:07:16.709 [main] DEBUG org.hibernate.SQL - 
+    alter table order_items 
+       add constraint FKocimc7dtr037rh4ls4l95nlfi 
+       foreign key (product_id) 
+       references products (id)
+2025-07-19 15:07:16.810 [main] DEBUG org.hibernate.SQL - 
+    alter table orders 
+       add constraint FK32ql8ubntj5uh44ph9659tiih 
+       foreign key (user_id) 
+       references users (id)
+2025-07-19 15:07:16.984 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-07-19 15:07:17.492 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-07-19 15:07:18.177 [main] ERROR o.s.b.w.e.tomcat.TomcatStarter - Error starting Tomcat context. Exception: org.springframework.beans.factory.UnsatisfiedDependencyException. Message: Error creating bean with name 'jwtAuthenticationFilter' defined in file [E:\Springboot_tips\demo\demo\target\classes\com\ddd\demo\security\JwtAuthenticationFilter.class]: Unsatisfied dependency expressed through constructor parameter 2: Error creating bean with name 'authServiceImpl' defined in file [E:\Springboot_tips\demo\demo\target\classes\com\ddd\demo\service\impl\AuthServiceImpl.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'userServiceImpl' defined in file [E:\Springboot_tips\demo\demo\target\classes\com\ddd\demo\service\impl\UserServiceImpl.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'securityConfig' defined in file [E:\Springboot_tips\demo\demo\target\classes\com\ddd\demo\config\SecurityConfig.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'jwtAuthenticationFilter': Requested bean is currently in creation: Is there an unresolvable circular reference?
+2025-07-19 15:07:18.210 [main] INFO  o.a.catalina.core.StandardService - Stopping service [Tomcat]
+2025-07-19 15:07:18.213 [main] WARN  o.a.c.loader.WebappClassLoaderBase - The web application [ROOT] appears to have started a thread named [HikariPool-1 housekeeper] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:269)
+ java.base/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:1763)
+ java.base/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1182)
+ java.base/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:899)
+ java.base/java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1070)
+ java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1130)
+ java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+ java.base/java.lang.Thread.run(Thread.java:1583)
+2025-07-19 15:07:18.213 [main] WARN  o.a.c.loader.WebappClassLoaderBase - The web application [ROOT] appears to have started a thread named [HikariPool-1 connection adder] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:269)
+ java.base/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:1763)
+ java.base/java.util.concurrent.LinkedBlockingQueue.poll(LinkedBlockingQueue.java:460)
+ java.base/java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1069)
+ java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1130)
+ java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+ java.base/java.lang.Thread.run(Thread.java:1583)
+2025-07-19 15:07:18.217 [main] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Unable to start web server
+2025-07-19 15:07:18.218 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-07-19 15:07:18.219 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-07-19 15:07:18.227 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-07-19 15:07:18.243 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2025-07-19 15:07:18.261 [main] ERROR o.s.b.d.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+The dependencies of some of the beans in the application context form a cycle:
+
+┌─────┐
+|  jwtAuthenticationFilter defined in file [E:\Springboot_tips\demo\demo\target\classes\com\ddd\demo\security\JwtAuthenticationFilter.class]
+↑     ↓
+|  authServiceImpl defined in file [E:\Springboot_tips\demo\demo\target\classes\com\ddd\demo\service\impl\AuthServiceImpl.class]
+↑     ↓
+|  userServiceImpl defined in file [E:\Springboot_tips\demo\demo\target\classes\com\ddd\demo\service\impl\UserServiceImpl.class]
+↑     ↓
+|  securityConfig defined in file [E:\Springboot_tips\demo\demo\target\classes\com\ddd\demo\config\SecurityConfig.class]
+└─────┘
+
+
+Action:
+
+Relying upon circular references is discouraged and they are prohibited by default. Update your application to remove the dependency cycle between beans. As a last resort, it may be possible to break the cycle automatically by setting spring.main.allow-circular-references to true.
+
+2025-07-19 15:11:57.018 [main] INFO  com.ddd.demo.DemoApplication - Starting DemoApplication using Java 21.0.6 with PID 24024 (E:\Springboot_tips\demo\demo\target\classes started by ducvu in E:\Springboot_tips\demo)
+2025-07-19 15:11:57.019 [main] DEBUG com.ddd.demo.DemoApplication - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-07-19 15:11:57.021 [main] INFO  com.ddd.demo.DemoApplication - The following 1 profile is active: "dev"
+2025-07-19 15:11:58.695 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-07-19 15:11:58.697 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-07-19 15:11:58.934 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 229 ms. Found 9 JPA repository interfaces.
+2025-07-19 15:11:58.955 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-07-19 15:11:58.957 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-07-19 15:11:58.984 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.ddd.demo.repository.FeedRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-07-19 15:11:58.985 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.ddd.demo.repository.FreeBoardReplyRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-07-19 15:11:58.986 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.ddd.demo.repository.FreeBoardRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-07-19 15:11:58.986 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.ddd.demo.repository.MemberRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-07-19 15:11:58.988 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.ddd.demo.repository.OrderRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-07-19 15:11:58.988 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.ddd.demo.repository.PDSBoardRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-07-19 15:11:58.989 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.ddd.demo.repository.ProductRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-07-19 15:11:58.989 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.ddd.demo.repository.ProfileRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-07-19 15:11:58.989 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.ddd.demo.repository.UserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-07-19 15:11:58.990 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 18 ms. Found 0 Redis repository interfaces.
+2025-07-19 15:11:59.366 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'validationConfiguration' of type [com.ddd.demo.config.ValidationConfiguration$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). The currently created BeanPostProcessor [methodValidationPostProcessor] is declared through a non-static factory method on that class; consider declaring it as static instead.
+2025-07-19 15:11:59.374 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'validator' of type [org.springframework.validation.beanvalidation.LocalValidatorFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [methodValidationPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-07-19 15:12:00.068 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-07-19 15:12:00.081 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-07-19 15:12:00.081 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-07-19 15:12:00.166 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-07-19 15:12:00.166 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 3086 ms
+2025-07-19 15:12:00.645 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-07-19 15:12:00.712 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.4.Final
+2025-07-19 15:12:00.752 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-07-19 15:12:01.014 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-07-19 15:12:01.045 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-07-19 15:12:01.455 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@712c9bcf
+2025-07-19 15:12:01.457 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-07-19 15:12:01.514 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-07-19 15:12:03.140 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-07-19 15:12:03.354 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-07-19 15:12:03.763 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-07-19 15:12:04.440 [main] DEBUG c.d.d.s.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+2025-07-19 15:12:06.126 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-07-19 15:12:06.881 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 3 endpoint(s) beneath base path '/actuator'
+2025-07-19 15:12:08.389 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2025-07-19 15:12:08.406 [main] INFO  com.ddd.demo.DemoApplication - Started DemoApplication in 12.021 seconds (process running for 12.994)
+2025-07-19 15:12:08.880 [RMI TCP Connection(3)-172.26.240.1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-07-19 15:12:08.881 [RMI TCP Connection(3)-172.26.240.1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-07-19 15:12:08.884 [RMI TCP Connection(3)-172.26.240.1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 3 ms
+2025-07-19 15:12:15.825 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-07-19 15:12:15.828 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-07-19 15:12:15.836 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.

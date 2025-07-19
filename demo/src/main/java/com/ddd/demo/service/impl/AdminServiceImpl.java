@@ -443,11 +443,10 @@ public class AdminServiceImpl implements AdminService {
 
         // CPU info
         SystemInfoResponse.CpuInfo cpuInfo = SystemInfoResponse.CpuInfo.builder()
-                .cpuUsage(osBean.getVersion() * 100)
-                .systemLoadAverage(osBean.getSystemLoadAverage())
-                .threadCount(Thread.activeCount())
-                .build();
-
+            .cpuUsage(osBean.getSystemLoadAverage() * 100)
+            .systemLoadAverage(osBean.getSystemLoadAverage())
+            .threadCount(Thread.activeCount())
+            .build();
         // Disk info
         File root = new File("/");
         SystemInfoResponse.DiskInfo diskInfo = SystemInfoResponse.DiskInfo.builder()

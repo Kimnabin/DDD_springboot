@@ -45,11 +45,6 @@ public class ResponseWrapper implements ResponseBodyAdvice<Object> {
             return body;
         }
 
-        // Skip wrapping for error responses (they should be handled by GlobalExceptionHandler)
-        if (response.getStatusCode() != null && response.getStatusCode().isError()) {
-            return body;
-        }
-
         // Wrap successful responses
         if (body instanceof ApiResponse) {
             return body;

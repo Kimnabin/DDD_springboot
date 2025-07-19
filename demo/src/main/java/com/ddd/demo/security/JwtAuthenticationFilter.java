@@ -30,8 +30,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtTokenProvider tokenProvider;
     private final CustomUserDetailsService userDetailsService;
-    private final AuthService authService;
-
     // Endpoints that should skip JWT authentication
     private static final List<String> SKIP_FILTER_PATHS = Arrays.asList(
             "/api/v1/auth/",
@@ -83,26 +81,22 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // Skip processing if user is already authenticated
         return SecurityContextHolder.getContext().getAuthentication() == null;
     }
-
     private void processJwtToken(String jwt, HttpServletRequest request) {
-        if (!authService.validateToken(jwt)) {
+        // ✅ Kiểm tra token trực tiếp từ JwtTokenProvider
+        if (!tokenProvider.validateToken(jwt)) {
             log.debug("Invalid JWT token");
             return;
         }
 
-        Long userId = authService.getUserIdFromToken(jwt);
-
+        Long userId = tokenProvider.getUserIdFromToken(jwt);
         if (userId == null) {
             log.debug("No user ID found in JWT token");
             return;
         }
 
-        // Set user ID in request for controllers
         request.setAttribute("userId", userId);
 
-        // Load user details and set authentication
         UserDetails userDetails = userDetailsService.loadUserById(userId);
-
         if (userDetails == null || !userDetails.isEnabled()) {
             log.debug("User not found or disabled: {}", userId);
             return;
@@ -120,4 +114,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         log.debug("Successfully authenticated user: {}", userDetails.getUsername());
     }
+
+
 }
