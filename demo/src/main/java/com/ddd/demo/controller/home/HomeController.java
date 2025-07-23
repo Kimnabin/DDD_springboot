@@ -1,17 +1,14 @@
 package com.ddd.demo.controller.home;
 
-import com.ddd.demo.model.BlogPost;
 import com.ddd.demo.service.BlogService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Arrays;
-import java.util.List;
-
-@RestController
+//@RestController
+@Controller
 @RequestMapping("/home")
 public class HomeController {
     @Autowired
@@ -29,5 +26,11 @@ public class HomeController {
         model.addAttribute("currentYear", java.time.Year.now().getValue());
 
         return "blog";
+    }
+
+    @GetMapping("/index")
+    public String index(Model model) {
+        model.addAttribute("message", "Xin chào từ Thymeleaf!");
+        return "index";  // trả về file templates/index.html
     }
 }
