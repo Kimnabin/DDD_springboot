@@ -25,7 +25,7 @@ public class HomeController {
         model.addAttribute("categories", blogService.getCategories());
         model.addAttribute("currentYear", java.time.Year.now().getValue());
 
-        return "blog";
+        return "blog-home";
     }
 
     @GetMapping("/index")

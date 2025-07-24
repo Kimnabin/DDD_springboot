@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Sample Member Info</title>
+
+    <!-- Gọi CSS từ static/css -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        /* Bạn có thể thêm một chút style riêng cho bảng hiển thị */
+        .member-container {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem auto;
+            max-width: 600px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+        .member-container h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+        .member-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .member-table th, .member-table td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+        .member-table th {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <nav class="container">
+        <div class="logo">MyBlog</div>
+        <ul class="nav-links">
+            <li><a th:href="@{/}">Trang chủ</a></li>
+            <li><a th:href="@{/sample}">Sample</a></li>
+        </ul>
+    </nav>
+</header>
+
+<div class="container member-container">
+    <h2>Thông tin Member</h2>
+
+    <table class="member-table">
+        <tr>
+            <th>ID</th>
+            <td th:text="${member.mno}">123</td>
+        </tr>
+        <tr>
+            <th>User ID</th>
+            <td th:text="${member.mid}">u00</td>
+        </tr>
+        <tr>
+            <th>Password</th>
+            <td th:text="${member.mpw}">p00</td>
+        </tr>
+        <tr>
+            <th>Tên</th>
+            <td th:text="${member.mname}">홍길동</td>
+        </tr>
+        <tr>
+            <th>Ngày tạo</th>
+            <td th:text="${#dates.format(member.regdate, 'yyyy-MM-dd HH:mm:ss')}">2025-07-23 15:00:00</td>
+        </tr>
+    </table>
+</div>
+
+<footer>
+    <div class="container">
+        <p>&copy; 2025 MyBlog</p>
+    </div>
+</footer>
+
+</body>
+</html>

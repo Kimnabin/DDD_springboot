@@ -21,49 +21,53 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        // ✅ Cho phép truy cập file tĩnh mà không cần login
+                        // ✅ Cho phép file tĩnh
                         .requestMatchers(
                                 "/css/**",
                                 "/js/**",
                                 "/images/**",
                                 "/webjars/**",
-                                "/static/**"
+                                "/static/**",
+                                "/favicon.ico"
                         ).permitAll()
 
-                        // ✅ Cho phép các trang public
-                        .requestMatchers(
-                                "/", "/home", "/about", "/contact",
-                                "/error", "/login"
-                        ).permitAll()
+                        // ✅ Cho phép Chrome DevTools & trang lỗi hoạt động
+                        .requestMatchers("/.well-known/**", "/error", "/error/**").permitAll()
 
-                        // ✅ Các request còn lại yêu cầu login
+                        // ✅ Cho phép các trang public (home, about…)
+                        .requestMatchers("/", "/home", "/about", "/contact", "/login", "/sample/**").permitAll()
+
+                        // ✅ Các request khác yêu cầu login
                         .anyRequest().authenticated()
                 )
-                // ✅ Tạm dùng default login của Spring Security (sau này bạn có thể custom loginPage("/login"))
+
+                // ✅ Sử dụng form login mặc định của Spring Security
                 .formLogin(AbstractAuthenticationFilterConfigurer::permitAll)
+
+                // ✅ Cho phép logout mà không cần auth
                 .logout(LogoutConfigurer::permitAll);
 
         return http.build();
     }
 
     /**
-     * ✅ User test (InMemory)
-     * admin / admin  → ROLE_ADMIN, ROLE_USER
-     * user / user    → ROLE_USER
+     * ✅ Tạo user mẫu để test
+     *  - admin / admin  → ROLE_ADMIN + ROLE_USER
+     *  - user  / user   → ROLE_USER
      */
     @Bean
     public UserDetailsService userDetailsService() {
         UserDetails admin = User.withUsername("admin")
                 .password(passwordEncoder().encode("admin"))
-                .authorities("ROLE_ADMIN", "ROLE_USER")
+                .roles("ADMIN", "USER")
                 .build();
 
         UserDetails user = User.withUsername("user")
                 .password(passwordEncoder().encode("user"))
-                .authorities("ROLE_USER")
+                .roles("USER")
                 .build();
 
         return new InMemoryUserDetailsManager(admin, user);

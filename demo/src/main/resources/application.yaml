@@ -1,10 +1,12 @@
+
+
 spring:
   application:
-    name: ddd-spring-boot-dem
+    name: ddd-spring-boot-demo
 
   # Thymeleaf configuration - FIXED
   thymeleaf:
-    prefix: classpath:/templates/html/
+    prefix: classpath:/templates/
     suffix: .html
     mode: HTML
     encoding: UTF-8
@@ -56,8 +58,12 @@ spring:
       roles:
         - USER
         - ADMIN
+  mvc:
+    static-path-pattern: /**
 
 logging:
   level:
     org.springframework.security: debug
     org.springframework.web: debug  # Added for debugging static resources
+server:
+  port: 2222

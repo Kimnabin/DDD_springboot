@@ -32,7 +32,7 @@ public class SendEmailTest {
         String subject = "Test HTML Email";
 
         // HTML content for the email body
-        Resource resource = new ClassPathResource("/templates/email/OTP.html");
+        Resource resource = new ClassPathResource("/templates/OTP.html");
         String htmlBody = new String(resource.getInputStream().readAllBytes());
 
 
